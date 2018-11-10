@@ -1,32 +1,77 @@
-.App {
+/* color palette - Hex	    RGB
+                #0f5257	(15,82,87)
+                #0b3142	(11,49,66)
+                #9c92a3	(156,146,163)
+                #c6b9cd	(198,185,205)
+                #d6d3f0	(214,211,240) */
+
+/* Main Page */
+.mainHeader {
+  background-color: #0b3142;
+  padding: 10px;
+  margin: 0;
   text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
+.mainHeader h2 {
+  margin: 0;
+  color: #d6d3f0;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+button {
+  position: absolute;
+  left: 10px;
+  top: 7px;
+  padding: 10px;
+  border: none;
+  background-color: #c6b9cd;
+}
+
+/* Map Container */
+.mapContainer {
+  width: 100vw;
+  height: calc(100vh - 25px);
+  display: flex;
+}
+
+/* List Style */
+.listMenu {
+  height: 100vh;
+  width: 325px;
+  max-width: 100vw;
+  background-color: rgba(214,211,240, 0.2);
+  font-family: Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
+  flex-wrap: wrap;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
 
-.App-link {
-  color: #61dafb;
+.list {
+  display: flex;
+  list-style: none;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.list li {
+  margin: 10px;
+  align-self: center;
+}
+
+.list li button {
+  border: none;
+  background: transparent;
+}
+
+/* Filter Input */
+.filter {
+  width: calc(100% - 25px);
+  margin: 20px;
+}
+
+/* Error Messages */
+.errorMessage {
+  text-align: center
 }
