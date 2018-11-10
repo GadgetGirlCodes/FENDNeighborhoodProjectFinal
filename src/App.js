@@ -15,12 +15,13 @@ class App extends Component {
   state = {
     locations: locations,
     yelpData: [],
+    filteredListings: [],
     menuOpen: false
   }
 
-  // Step 1: Get location information from Yelp
+  // Get and store location information from Yelp
   getYelpInfo = () => {
-      let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=1000&latitude=32.322613&longitude=-95.262592"
+      let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=1000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
       let headers = new Headers({
           Authorization: `Bearer ${YELP_KEY}`
         });
@@ -44,8 +45,20 @@ class App extends Component {
     this.setState({ menuOpen: !this.state.menuOpen });
   }
 
+  updateListing = (query) => {
+    if (query) {
+      this.props.yelpInfo.search(query).then((filteredListings) => {
+        if (filteredListings.error) {
+          this.setState({ filteredListings: [] })
+        } else {
+          this.setState({ filteredListings: filteredListings })
+        }
+      })
+    }
+  };
+
   componentDidMount() {
-    // this.getYelpInfo();
+    this.getYelpInfo();
   };
 
   render() {
@@ -59,23 +72,17 @@ class App extends Component {
           yelpData={this.state.yelpData}
           getYelpInfo={this.getYelpInfo}
           menuOpen={this.state.menuOpen}
-          toggleMenu={this.toggleMenu} />
+          toggleMenu={this.toggleMenu}
+          filteredListings={this.state.filteredListings} />
         <MapContainer
           locations={this.state.locations}
           yelpData={this.state.yelpData}
-          getYelpInfo={this.getYelpInfo} />
+          getYelpInfo={this.getYelpInfo}
+          filteredListings={this.state.filteredListings} />
       </div>
 
       // TODO: Create a full-screen map that displays markers for restaurants
       // near the UT Tyler campus. 
-
-      // Step 1: Display Map
-
-      // Step 2: Display ListMenu
-
-      // Step 3: Add functionality
-      // ---------------------------------------------------
-      // Step 1: Get location information from Yelp
 
       // Step 2: Display location information as markers on map
 

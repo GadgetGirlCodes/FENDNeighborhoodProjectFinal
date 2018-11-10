@@ -2,14 +2,12 @@ import React, { Component } from 'react';
 import Drawer from '@material-ui/core/Drawer';
 import { DebounceInput } from 'react-debounce-input';
 import Listing from './Listing';
-// import * as locations from './data/locations'
 
 
 
 class ListMenu extends Component {
   state = {
     query: "",
-    filteredListings: [],
     menuOpen: false
   }
 
@@ -18,18 +16,7 @@ class ListMenu extends Component {
     this.updateListing(query)
   };
 
-  updateListing = (query) => {
-    if (query) {
-      this.props.yelpInfo.search(query).then((filteredListings) => {
-        if (filteredListings.error) {
-          this.setState({ filteredListings: [] })
-        } else {
-          this.setState({ filteredListings: filteredListings })
-        }
-      })
-    }
-  };
-
+  // Display ListMenu and add functionality for open/close
   render() {
     return (
       <Drawer open={this.props.menuOpen} onClose={this.props.toggleMenu}>
@@ -44,10 +31,15 @@ class ListMenu extends Component {
             onChange={e => this.updateQuery(e.target.value)}
             value={this.state.query} />
           <ul className='list'>
-            {/* <li key={}>
-              <Listing
-                 />
-            </li> */}
+            {this.props.yelpData
+              .map(listing => (
+                <li key={listing.id}>
+                  <Listing 
+                    listing={listing}
+                  />
+                </li>
+              ))
+            }
           </ul>
         </section>
       </Drawer>
