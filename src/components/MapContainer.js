@@ -11,8 +11,6 @@ class MapContainer extends Component {
   }
 
   loadMarkers = (mapProps, map) => {
-    const {google} = mapProps;
-    const service = new google.maps.places.PlacesService(map);
     this.props.getYelpInfo();
   }
 
@@ -31,6 +29,7 @@ class MapContainer extends Component {
       lng: -95.262592
     }
 
+  // Display Map
     return (
       <Map 
         aria-label="map"
@@ -47,9 +46,7 @@ class MapContainer extends Component {
               <h3>{this.state.activeMarker.name}</h3>
             </div>
           </InfoWindow> */}
-          </Map>
-      // TODO: Display full screen map. All location markers must show by default,
-      // and must filter. Markers must be clickable and show info when clicked.
+      </Map>
     )
   }
 }
