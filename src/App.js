@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import ListMenu from './components/ListMenu';
 import MapContainer from './components/MapContainer';
-import locations from './data/locations.json';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -13,7 +12,6 @@ const YELP_KEY = 'nURSXAKqkUMPdntGky6KItOf0vSFaLnwcaN-w7MPeI5543g1OtE6dVSA_tXWRM
 
 class App extends Component {
   state = {
-    locations: locations,
     yelpData: [],
     filteredListings: [],
     menuOpen: false
