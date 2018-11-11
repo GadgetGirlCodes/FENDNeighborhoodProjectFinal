@@ -12,6 +12,7 @@ const YELP_KEY = 'nURSXAKqkUMPdntGky6KItOf0vSFaLnwcaN-w7MPeI5543g1OtE6dVSA_tXWRM
 
 class App extends Component {
   state = {
+    markers: [],
     yelpData: [],
     filteredListings: [],
     menuOpen: false
@@ -27,6 +28,7 @@ class App extends Component {
         method: 'GET',
         headers
       })
+      let markers = [];
       fetch(request)
         .then(response => {
           if (response.ok) {
@@ -35,28 +37,32 @@ class App extends Component {
             throw new Error('Something went wrong...');
           }
         })
-        .then(data => this.setState({ yelpData: data.businesses}))
+        .then(data => this.setState({ yelpData: data.businesses }))
+        .then(() => this.state.yelpData.map(item => markers.push(item.coordinates)))
         .catch(error => this.setState({ error }));
+        this.setState({ markers: markers });
     };
 
+  // Toggle side menu to open
   toggleMenu = () => {
     this.setState({ menuOpen: !this.state.menuOpen });
   }
 
-  updateListing = (query) => {
-    if (query) {
-      this.props.yelpInfo.search(query).then((filteredListings) => {
-        if (filteredListings.error) {
-          this.setState({ filteredListings: [] })
-        } else {
-          this.setState({ filteredListings: filteredListings })
-        }
-      })
-    }
-  };
+  // updateListing = (query) => {
+  //   if (query) {
+  //     this.props.yelpInfo.search(query).then((filteredListings) => {
+  //       if (filteredListings.error) {
+  //         this.setState({ filteredListings: [] })
+  //       } else {
+  //         this.setState({ filteredListings: filteredListings })
+  //       }
+  //     })
+  //   }
+  // };
 
   componentDidMount() {
     this.getYelpInfo();
+    // this.loadMarkers();
   };
 
   render() {
@@ -64,27 +70,24 @@ class App extends Component {
       <div className="App">
         <nav className="mainHeader">
           <h2>Nom-Nom Finder</h2>
-          <button onClick={this.toggleMenu}><FontAwesomeIcon icon="bars"/></button>
+          <button aria-label="Listing" onClick={this.toggleMenu}><FontAwesomeIcon icon="bars"/></button>
         </nav>
         <ListMenu
           yelpData={this.state.yelpData}
-          getYelpInfo={this.getYelpInfo}
           menuOpen={this.state.menuOpen}
           toggleMenu={this.toggleMenu}
           filteredListings={this.state.filteredListings} />
         <MapContainer
-          locations={this.state.locations}
           yelpData={this.state.yelpData}
-          getYelpInfo={this.getYelpInfo}
-          filteredListings={this.state.filteredListings} />
+          filteredListings={this.state.filteredListings}
+          loadMarkers={this.loadMarkers}
+          markers={this.state.markers} />
       </div>
 
       // TODO: Create a full-screen map that displays markers for restaurants
       // near the UT Tyler campus. 
 
       // Step 2: Display location information as markers on map
-
-      // Step 3: Display location information on ListMenu
 
       // Step 4a: When marker clicked, display location information
 
