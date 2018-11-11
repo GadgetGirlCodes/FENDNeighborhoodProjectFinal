@@ -20,7 +20,7 @@ class App extends Component {
 
   // Get and store location information from Yelp
   getYelpInfo = () => {
-      let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=1000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
+      let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=2000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
       let headers = new Headers({
           Authorization: `Bearer ${YELP_KEY}`
         });
@@ -38,9 +38,7 @@ class App extends Component {
           }
         })
         .then(data => this.setState({ yelpData: data.businesses }))
-        .then(() => this.state.yelpData.map(item => markers.push(item.coordinates)))
         .catch(error => this.setState({ error }));
-        this.setState({ markers: markers });
     };
 
   // Toggle side menu to open
@@ -78,8 +76,7 @@ class App extends Component {
           filteredListings={this.state.filteredListings} />
         <MapContainer
           yelpData={this.state.yelpData}
-          filteredListings={this.state.filteredListings}
-          markers={this.state.markers} />
+          filteredListings={this.state.filteredListings} />
       </div>
 
       // TODO: Create a full-screen map that displays markers for restaurants

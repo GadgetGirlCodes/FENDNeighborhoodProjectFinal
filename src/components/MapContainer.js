@@ -8,16 +8,16 @@ class MapContainer extends Component {
     visibleMarker: true
   }
 
-  loadMarkers = () => {
-    this.props.markers.map((item, index) => {
-      return (
-          <Marker
-            key={index}
-            position={{lat: item.latitude, lng: item.longitude }}
-          />
-        );
-      })
-    };
+  // loadMarkers = (map) => {
+  //   this.props.markers.map((item, index) => {
+  //     let item = item;
+  //     let marker = new google.maps.Marker({
+  //       key:{index},
+  //       position:{item}
+  //     })
+  //   })
+  // }
+
 
   onMarkerClick = () => {this.setState({ showInfo: true })};
 
@@ -35,11 +35,16 @@ class MapContainer extends Component {
         aria-label="map"
         role="application"
         google={this.props.google}
-        zoom={13}        
+        zoom={15}        
         initialCenter={center}
         onReady={this.loadMarkers}
         >
-        
+        {this.props.yelpData.map((item) => (
+          <Marker
+            key={item.id}
+            position={{lat: item.coordinates.latitude, lng: item.coordinates.longitude}}
+          />
+        ))}
 
         {/* <InfoWindow
           marker={this.state.activeMarker}
