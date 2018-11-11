@@ -3,25 +3,25 @@ import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
 
 class MapContainer extends Component {
   state = {
-    markers: [],
-    markerInfo: [],
     activeMarker: null,
-    activeInfo: null,
-    showInfo: false
+    showInfo: false,
+    visibleMarker: true
   }
 
-  loadMarkers = (mapProps, map) => {
-    this.props.getYelpInfo();
-  }
+  loadMarkers = () => {
+    this.props.markers.map((item, index) => {
+      return (
+          <Marker
+            key={index}
+            position={{lat: item.latitude, lng: item.longitude }}
+          />
+        );
+      })
+    };
 
-  onMarkerClick = (marker) => {
-    if (marker === this.state.activeMarker) {
-      this.setState({ activeMarker: marker })
-      this.setState({ showInfo: true })
-    }
-  };
+  onMarkerClick = () => {this.setState({ showInfo: true })};
 
-  onInfoWindowClose = () => {};
+  componentDidMount() {}
 
   render() {
     const center = {
@@ -37,15 +37,16 @@ class MapContainer extends Component {
         google={this.props.google}
         zoom={13}        
         initialCenter={center}
-        onReady={this.loadMarkers}>
-          {/* <Marker onClick={this.onMarkerClick}
-            position={this.props.locations.pos}/> */}
-          {/* <InfoWindow
-            onClose={this.onInfoWindowClose}>
-            <div>
-              <h3>{this.state.activeMarker.name}</h3>
-            </div>
-          </InfoWindow> */}
+        onReady={this.loadMarkers}
+        >
+        
+
+        {/* <InfoWindow
+          marker={this.state.activeMarker}
+          visible={this.state.showInfo}
+          onClose={this.InfoWindowClose} >
+          <div>This is your info!</div>
+        </InfoWindow> */}
       </Map>
     )
   }

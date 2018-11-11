@@ -62,7 +62,6 @@ class App extends Component {
 
   componentDidMount() {
     this.getYelpInfo();
-    // this.loadMarkers();
   };
 
   render() {
@@ -80,7 +79,6 @@ class App extends Component {
         <MapContainer
           yelpData={this.state.yelpData}
           filteredListings={this.state.filteredListings}
-          loadMarkers={this.loadMarkers}
           markers={this.state.markers} />
       </div>
 

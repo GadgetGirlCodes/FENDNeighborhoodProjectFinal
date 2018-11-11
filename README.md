@@ -1,44 +1,42 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Neighborhood App Project
 
-## Available Scripts
+## Table of Contents
 
-In the project directory, you can run:
+* [Goal](#goal)
+* [Access](#access)
+* [Attribution](#attribution)
+* [Contributing](#contributing)
 
-### `npm start`
+## Goal
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+To create a web app using Google Maps API, Yelp API and REACT that is responsive, accessible, and available offline.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+## Access
 
-### `npm test`
+To access this web app:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+	1. Clone/Download the repository to your local drive.
+	2. From the command line at project root, run `npm install` and `npm start`
+	3. If the browser does not automatically open the app, then with your server running,
+	 navigate to `http://localhost:3000`
 
-### `npm run build`
+## Attribution
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
+Emulated backend server was provided by [cors-anywhere](https://github.com/Rob--W/cors-anywhere/). The use of this is solely for the testing and review of this project. It is not intended for public use.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+This project wouldn't have been possible without the fantastic help of Doug Brown. His [walkthrough](https://www.youtube.com/watch?v=NVAVLCJwAAo&feature=youtu.be) as well as his guidance in our Slack forum was priceless. Thank you so much!
 
-### `npm run eject`
+Photos are provided via the [YelpFusion API](https://www.yelp.com/developers/documentation/v3).
+Map is provided via the [Google Maps API](http://maps.google.com).
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+The following libraries were also used in development:
+	* [Material-UI](https://material-ui.com/)
+	* [Google-maps-react](https://github.com/fullstackreact/google-maps-react)
+	* [React-fontawesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome)
+  * [React-debounce-input](https://www.npmjs.com/package/react-debounce-input)
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Contributing
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+This repository was created solely for the purpose of completing Udacity's Front End Nanodegree Program. Pull requests are welcome, but may not be accepted.

@@ -3,8 +3,6 @@ import Drawer from '@material-ui/core/Drawer';
 import { DebounceInput } from 'react-debounce-input';
 import Listing from './Listing';
 
-
-
 class ListMenu extends Component {
   state = {
     query: "",
