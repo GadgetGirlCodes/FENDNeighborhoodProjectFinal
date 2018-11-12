@@ -11,16 +11,28 @@ class ListMenu extends Component {
 
   updateQuery = (query) => {
     this.setState({ query: query })
-    this.updateListing(query)
+    this.props.updateListing(query)
   };
+
+  // displayFilteredListings = () => {
+    
+  //     )
+  // };
+
+  // displayAllListings = () => {
+
+  //     ))
+  // }
+
 
   // Display ListMenu and add functionality for open/close
   render() {
+
     return (
       <Drawer open={this.props.menuOpen} onClose={this.props.toggleMenu}>
         <section className="listMenu">
           <DebounceInput
-            minLength={2}
+            minLength={1}
             debounceTimeout={500}
             className='filter'
             element="input"
@@ -29,14 +41,21 @@ class ListMenu extends Component {
             onChange={e => this.updateQuery(e.target.value)}
             value={this.state.query} />
           <ul className='list'>
-            {this.props.yelpData
+            { this.props.filteredListings !== null ?
+              (this.props.filteredListings
               .map(listing => (
                 <li key={listing.id}>
-                  <Listing 
+                  <Listing
                     listing={listing}
                   />
-                </li>
-              ))
+                </li>))) :
+              (this.props.yelpData
+                .map(listing => (
+                  <li key={listing.id}>
+                    <Listing
+                      listing={listing}
+                    />
+                  </li>)))
             }
           </ul>
         </section>

@@ -13,7 +13,7 @@ const YELP_KEY = 'nURSXAKqkUMPdntGky6KItOf0vSFaLnwcaN-w7MPeI5543g1OtE6dVSA_tXWRM
 class App extends Component {
   state = {
     yelpData: [],
-    filteredListings: [],
+    filteredListings: null,
     menuOpen: false
   }
 
@@ -52,7 +52,7 @@ class App extends Component {
         filteredListings: this.filterListings(query)
       });
     } else {
-      this.setState({ filteredListings: [] })
+      this.setState({ filteredListings: null })
     }
   }
 
