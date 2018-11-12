@@ -3,25 +3,27 @@ import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
 
 class MapContainer extends Component {
   state = {
+    selectedPlace: null,
     activeMarker: null,
     showInfo: false,
-    visibleMarker: true
   }
 
-  // loadMarkers = (map) => {
-  //   this.props.markers.map((item, index) => {
-  //     let item = item;
-  //     let marker = new google.maps.Marker({
-  //       key:{index},
-  //       position:{item}
-  //     })
-  //   })
-  // }
+  onMarkerClick = (marker, props, e) => {
+    this.setState({ 
+      activeMarker: marker,
+      selectedPlace: props,
+      showInfo: !this.state.showInfo })
+    };
 
-
-  onMarkerClick = () => {this.setState({ showInfo: true })};
-
-  componentDidMount() {}
+  onInfoClose = (props) => {
+    if (this.state.showInfo) {
+      this.setState({
+        showInfo: false,
+        selectedPlace: null,
+        activeMarker: null
+      })
+    }
+  };
 
   render() {
     const center = {
@@ -39,19 +41,32 @@ class MapContainer extends Component {
         initialCenter={center}
         onReady={this.loadMarkers}
         >
-        {this.props.yelpData.map((item) => (
-          <Marker
-            key={item.id}
-            position={{lat: item.coordinates.latitude, lng: item.coordinates.longitude}}
-          />
-        ))}
-
-        {/* <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showInfo}
-          onClose={this.InfoWindowClose} >
-          <div>This is your info!</div>
-        </InfoWindow> */}
+        {/* Display location information as markers on map */}
+        {this.props.filteredListings !== null ?
+          (this.props.filteredListings.map((item) => (
+            <Marker
+              key={item.id}
+              position={{lat: item.coordinates.latitude, lng: item.coordinates.longitude}}
+              name={item.name}
+              onClick={this.onMarkerClick}
+            />))) :
+           (this.props.yelpData.map((item) => (
+            <Marker
+              key={item.id}
+              position={{lat: item.coordinates.latitude, lng: item.coordinates.longitude}}
+              name={item.name}
+              onClick={this.onMarkerClick}
+            />)        
+            ))
+            }
+        <InfoWindow
+            marker={this.state.activeMarker}
+            visible={this.state.showInfo}
+            onClose={this.onInfoClose}>
+              <div>
+                <h1>Somethingsomethingsomething</h1>
+              </div>
+          </InfoWindow>
       </Map>
     )
   }
