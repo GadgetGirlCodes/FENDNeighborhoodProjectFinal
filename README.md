@@ -32,10 +32,11 @@ Photos are provided via the [YelpFusion API](https://www.yelp.com/developers/doc
 Map is provided via the [Google Maps API](http://maps.google.com).
 
 The following libraries were also used in development:
+
+  * [React-debounce-input](https://www.npmjs.com/package/react-debounce-input)
 	* [Material-UI](https://material-ui.com/)
 	* [Google-maps-react](https://github.com/fullstackreact/google-maps-react)
 	* [React-fontawesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome)
-  * [React-debounce-input](https://www.npmjs.com/package/react-debounce-input)
 
 ## Contributing
 
