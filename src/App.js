@@ -12,7 +12,6 @@ const YELP_KEY = 'nURSXAKqkUMPdntGky6KItOf0vSFaLnwcaN-w7MPeI5543g1OtE6dVSA_tXWRM
 
 class App extends Component {
   state = {
-    markers: [],
     yelpData: [],
     filteredListings: [],
     menuOpen: false
@@ -28,7 +27,6 @@ class App extends Component {
         method: 'GET',
         headers
       })
-      let markers = [];
       fetch(request)
         .then(response => {
           if (response.ok) {
@@ -46,17 +44,26 @@ class App extends Component {
     this.setState({ menuOpen: !this.state.menuOpen });
   }
 
-  // updateListing = (query) => {
-  //   if (query) {
-  //     this.props.yelpInfo.search(query).then((filteredListings) => {
-  //       if (filteredListings.error) {
-  //         this.setState({ filteredListings: [] })
-  //       } else {
-  //         this.setState({ filteredListings: filteredListings })
-  //       }
-  //     })
-  //   }
-  // };
+  // Set filteredListings state if query input
+  updateListing = (query) => {
+    if (query) {
+      this.setState({
+        ...this.state,
+        filteredListings: this.filterListings(query)
+      });
+    } else {
+      this.setState({ filteredListings: [] })
+    }
+  }
+
+  //Update listings based on filter input, if none, leave filteredListings empty
+  filterListings = (query) => {
+    if (!query) {
+      return;
+    } else {
+      return this.state.yelpData.filter(listing => listing.name.toLowerCase().includes(query.toLowerCase()));
+    }
+  }
 
   componentDidMount() {
     this.getYelpInfo();
@@ -73,6 +80,7 @@ class App extends Component {
           yelpData={this.state.yelpData}
           menuOpen={this.state.menuOpen}
           toggleMenu={this.toggleMenu}
+          updateListing={this.updateListing}
           filteredListings={this.state.filteredListings} />
         <MapContainer
           yelpData={this.state.yelpData}
@@ -82,7 +90,7 @@ class App extends Component {
       // TODO: Create a full-screen map that displays markers for restaurants
       // near the UT Tyler campus. 
 
-      // Step 2: Display location information as markers on map
+      // Step 2: 
 
       // Step 4a: When marker clicked, display location information
 
