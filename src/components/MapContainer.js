@@ -31,7 +31,12 @@ class MapContainer extends Component {
       lng: -95.262592
     }
 
-  // Display Map
+
+  // DONE: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
+  
+  // TODO: Clicking a marker displays unique information about a location somewhere on the page (modal, separate div, inside an infoWindow).
+
+    // Displays Map and markers. If filtered, only filtered markers are shown
     return (
       <Map 
         aria-label="map"

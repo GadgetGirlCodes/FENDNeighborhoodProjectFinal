@@ -14,20 +14,13 @@ class ListMenu extends Component {
     this.props.updateListing(query)
   };
 
-  // displayFilteredListings = () => {
-    
-  //     )
-  // };
+  // DONE: Includes a text input field or dropdown menu that filters the map markers and list items to locations matching the text input or selection. Filter function runs error-free.
+  // DONE: A list-view of location names is provided which displays all locations by default, and displays the filtered subset of locations when a filter is applied.
+  
+  // TODO: Clicking a location on the list displays unique information about the location, and animates its associated map marker (e.g. bouncing, color change.)
 
-  // displayAllListings = () => {
-
-  //     ))
-  // }
-
-
-  // Display ListMenu and add functionality for open/close
+  // Displays ListMenu, available Listings and FilterInput. If filtered, only filtered items are shown.
   render() {
-
     return (
       <Drawer open={this.props.menuOpen} onClose={this.props.toggleMenu}>
         <section className="listMenu">

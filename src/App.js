@@ -17,6 +17,9 @@ class App extends Component {
     menuOpen: false
   }
 
+  // DONE: Application utilizes the Google Maps API or another mapping system and at least one non-Google third-party API. Refer to this documentation
+  // DONE: All data requests are retrieved in an asynchronous manner using either the Fetch API or XMLHttpRequest.
+
   // Get and store location information from Yelp
   getYelpInfo = () => {
       let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=2000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
@@ -39,7 +42,7 @@ class App extends Component {
         .catch(error => this.setState({ error }));
     };
 
-  // Toggle side menu to open
+  // Toggle ListMenu
   toggleMenu = () => {
     this.setState({ menuOpen: !this.state.menuOpen });
   }
@@ -86,17 +89,6 @@ class App extends Component {
           yelpData={this.state.yelpData}
           filteredListings={this.state.filteredListings} />
       </div>
-
-      // TODO: Create a full-screen map that displays markers for restaurants
-      // near the UT Tyler campus. 
-
-      // Step 2: 
-
-      // Step 4a: When marker clicked, display location information
-
-      // Step 4: When clicked on ListMenu, display InfoWindow on marker
-
-      // Step 5: Add filter functionality
     );
   }
 }
