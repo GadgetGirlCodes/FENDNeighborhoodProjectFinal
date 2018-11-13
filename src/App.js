@@ -21,7 +21,7 @@ class App extends Component {
   // DONE: Application utilizes the Google Maps API or another mapping system and at least one non-Google third-party API. Refer to this documentation
   // DONE: All data requests are retrieved in an asynchronous manner using either the Fetch API or XMLHttpRequest.
 
-  // Get and store location information from Yelp
+  // Get and store location information from YelpAPI
   getYelpInfo = () => {
       let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=2000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
       let headers = new Headers({
@@ -46,7 +46,7 @@ class App extends Component {
 
   getMarkerInfo = (markerData) => {
     let markerInfo = [];
-    // Map over YelpAPI data to create array for markers and set that array to markers state
+    // Map over YelpAPI data to create array for markerInfo and set that array to markerInfo state
     markerData.map(element => {
       let info = {
         key: element.id,
@@ -91,6 +91,9 @@ class App extends Component {
   };
 
   render() {
+    // Wait for Yelp Data to populate. https://stackoverflow.com/questions/42132290/wait-for-react-promise-to-resolve-before-render
+    if (this.state.markerInfo === null) return 'Please wait. Loading data from Yelp!';
+
     return (
       <div className="App">
         <nav className="mainHeader">
