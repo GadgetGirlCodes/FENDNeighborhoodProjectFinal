@@ -1,19 +1,37 @@
-import React, {Component} from 'react';
-import { Map, Marker, InfoWindow, GoogleApiWrapper } from 'google-maps-react';
+import React, { Component } from 'react';
+import { Map, GoogleApiWrapper } from 'google-maps-react';
 
 class MapContainer extends Component {
   state = {
+    markers: [],
     selectedPlace: null,
     activeMarker: null,
     showInfo: false,
   }
 
+  createMarkers = () => {
+    if (this.props.markerInfo !== null) {
+      let markers = this.props.markerInfo.forEach(marker => {
+        marker = new this.props.google.maps.Marker({
+          position: marker.position,
+          key: marker.key
+        })
+        return marker;
+      })
+      console.log(markers);
+      this.setState({ markers: markers });
+    }
+  }
+
+
+
   onMarkerClick = (marker, props, e) => {
-    this.setState({ 
+    this.setState({
       activeMarker: marker,
       selectedPlace: props,
-      showInfo: !this.state.showInfo })
-    };
+      showInfo: !this.state.showInfo
+    })
+  };
 
   onInfoClose = (props) => {
     if (this.state.showInfo) {
@@ -32,46 +50,21 @@ class MapContainer extends Component {
     }
 
 
-  // DONE: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
-  
-  // TODO: Clicking a marker displays unique information about a location somewhere on the page (modal, separate div, inside an infoWindow).
+    // DONE: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
+
+    // TODO: Clicking a marker displays unique information about a location somewhere on the page (modal, separate div, inside an infoWindow).
 
     // Displays Map and markers. If filtered, only filtered markers are shown
     return (
-      <Map 
+      <Map
         aria-label="map"
         role="application"
         google={this.props.google}
-        zoom={15}        
+        zoom={15}
         initialCenter={center}
-        onReady={this.loadMarkers}
-        >
+        onReady={this.createMarkers}
+      >
         {/* Display location information as markers on map */}
-        {this.props.filteredListings !== null ?
-          (this.props.filteredListings.map((item) => (
-            <Marker
-              key={item.id}
-              position={{lat: item.coordinates.latitude, lng: item.coordinates.longitude}}
-              name={item.name}
-              onClick={this.onMarkerClick}
-            />))) :
-           (this.props.yelpData.map((item) => (
-            <Marker
-              key={item.id}
-              position={{lat: item.coordinates.latitude, lng: item.coordinates.longitude}}
-              name={item.name}
-              onClick={this.onMarkerClick}
-            />)        
-            ))
-            }
-        <InfoWindow
-            marker={this.state.activeMarker}
-            visible={this.state.showInfo}
-            onClose={this.onInfoClose}>
-              <div>
-                <h1>Somethingsomethingsomething</h1>
-              </div>
-          </InfoWindow>
       </Map>
     )
   }

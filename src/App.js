@@ -12,6 +12,7 @@ const YELP_KEY = 'nURSXAKqkUMPdntGky6KItOf0vSFaLnwcaN-w7MPeI5543g1OtE6dVSA_tXWRM
 
 class App extends Component {
   state = {
+    markerInfo: null,
     yelpData: [],
     filteredListings: null,
     menuOpen: false
@@ -39,8 +40,25 @@ class App extends Component {
           }
         })
         .then(data => this.setState({ yelpData: data.businesses }))
+        .then(markerData => this.getMarkerInfo(this.state.yelpData))
         .catch(error => this.setState({ error }));
     };
+
+  getMarkerInfo = (markerData) => {
+    let markerInfo = [];
+    // Map over YelpAPI data to create array for markers and set that array to markers state
+    markerData.map(element => {
+      let info = {
+        key: element.id,
+        name: element.name,
+        position: {lat: element.coordinates.latitude, lng: element.coordinates.longitude},
+        phone: element.display_phone
+      };
+      return markerInfo.push(info);    
+  })
+  console.log(markerInfo);
+  this.setState({ markerInfo: markerInfo })
+};
 
   // Toggle ListMenu
   toggleMenu = () => {
@@ -87,6 +105,7 @@ class App extends Component {
           filteredListings={this.state.filteredListings} />
         <MapContainer
           yelpData={this.state.yelpData}
+          markerInfo={this.state.markerInfo}
           filteredListings={this.state.filteredListings} />
       </div>
     );
