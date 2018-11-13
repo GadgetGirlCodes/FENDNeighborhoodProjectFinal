@@ -24,12 +24,13 @@ class App extends Component {
   getYelpInfo = () => {
       let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=2000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
       let headers = new Headers({
-          Authorization: `Bearer ${YELP_KEY}`
+          Authorization: `Bearer ${YELP_KEY}`,
         });
       let request = new Request(url, {
         method: 'GET',
         headers
       })
+
       fetch(request)
         .then(response => {
           if (response.ok) {
@@ -42,6 +43,7 @@ class App extends Component {
         .catch(error => this.setState({ error }));
     };
 
+  
   // Toggle ListMenu
   toggleMenu = () => {
     this.setState({ menuOpen: !this.state.menuOpen });
