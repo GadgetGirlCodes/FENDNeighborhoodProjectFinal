@@ -11,9 +11,8 @@ class Listing extends Component {
         <div className="listingPhoto">
           <img alt={this.props.listing.name + " photo"} src={displayedImage}/>
         </div>
-        <div>{this.props.listing.display_phone}</div>
-        <div>{this.props.listing.location.display_address[0]}</div>
-        <div>{this.props.listing.location.display_address[1]}</div>
+        <div>{this.props.listing.address[0]}</div>
+        <div>{this.props.listing.address[1]}</div>
         <div><a href={this.props.listing.url}>See Yelp For More Information</a></div>
       </section>
     )
