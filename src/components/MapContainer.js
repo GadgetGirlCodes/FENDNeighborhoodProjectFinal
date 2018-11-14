@@ -9,13 +9,13 @@ class MapContainer extends Component {
     markers: [],
     filteredMarkers: null,
     filteredListings: null,
-    selectedPlace: null,
     activeMarker: null,
-    showInfo: false,
-    query: "",
+    query: ""
   }
 
-  // google-maps-react documentation: passing mapProps and map in their examples. https://github.com/fullstackreact/google-maps-react
+  // DONE: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
+
+  // Create markers using the props given from google-maps-react via mapProps and map https://github.com/fullstackreact/google-maps-react
   createMarkers = (mapProps, map) => {
     // set google to mapProps from Map for marker creation
     const { google } = mapProps;
@@ -32,10 +32,12 @@ class MapContainer extends Component {
         name: item.name,
         map: map,
         phone: item.phone,
-        animation: google.maps.Animation.Drop,
+        animation: google.maps.Animation.DROP,
       });
 
-      // Content for each infoWindow
+    // DONE: Clicking a marker displays unique information about a location somewhere on the page (modal, separate div, inside an infoWindow).
+
+      // Content for each infoWindow. Reference found here https://developers.google.com/maps/documentation/javascript/infowindows
       let windowContent =
         `<div className="infoWindow">
             <h3>${marker.name}</h3>
@@ -43,9 +45,14 @@ class MapContainer extends Component {
           </div>`;
 
       marker.addListener('click', () => {
+        //close any open infoWindow
         infoWindow.close();
+        //set the content for the new window
         infoWindow.setContent(windowContent);
+        //show the new window based on the clicked marker
         infoWindow.open(map, marker);
+        //set state to activeMarker for use with Listing click event
+        this.setState({ activeMarker: marker })
       });
 
       // store marker into array to push to set to state
@@ -62,57 +69,29 @@ class MapContainer extends Component {
     this.updateListing(query)
   };
 
-  // Set filteredListings state if query input
-  updateListing = (query) => {
+  // Set filteredListings state if query input.
+  updateListing = (query, map) => {
     if (query) {
-      this.setState({
-        ...this.state,
-        filteredListings: this.filterListings(query),
-        filteredMarkers: this.filterMarkers(query)
-      });
+      // check listing with query. Used toLowerCase to prevent any hangups with case-sensitivity
+      let filteredListings = this.props.markerInfo.filter(listing => (listing.name.toLowerCase().includes(query.toLowerCase())));
+      this.setState({ filteredListings: filteredListings });
+      this.state.filteredMarkers.forEach((listing) => {
+        // check markers with query
+        if (!listing.name.toLowerCase().includes(query.toLowerCase())) {
+          return listing.setVisible(false);
+        }
+      })
     } else {
-      this.setState({ filteredListings: null, filteredMarkers: null })
+      //clear filtered listings
+      this.setState({ filteredListings: null});
+      this.setVisibleOnAll();
     }
-  }
+  };
 
-  //Update listings based on filter input
-  filterListings = (query) => {
-    if (!query) {
-      return;
-    } else {
-      return this.props.markerInfo.filter(listing => listing.name.toLowerCase().includes(query.toLowerCase()));
-    }
-  }
-
-  //Update markers based on filter input
-  filterMarkers = (query) => {
-    if (!query) {
-      return;
-    } else {
-      return this.state.markers.filter(listing => listing.name.toLowerCase().includes(query.toLowerCase()));
-    }
-  }
-
-
-  // // set InfoWindow to show and active marker state when marker is clicked
-  // onMarkerClick = (marker, props, e) => {
-  //   this.setState({
-  //     activeMarker: marker,
-  //     selectedPlace: props,
-  //     showInfo: !this.state.showInfo
-  //   })
-  // };
-
-  // onInfoClose = (props) => {
-  //   if (this.state.showInfo) {
-  //     this.setState({
-  //       showInfo: false,
-  //       selectedPlace: null,
-  //       activeMarker: null
-  //     })
-  //   }
-  // };
-
+  //Set all markers to visible
+setVisibleOnAll = () => {
+  this.state.filteredMarkers.forEach((marker) => marker.setVisible(true))
+};
 
   // Map over filteredListings and display filtered listings. If null, display all listings
   displayListings = () => {
@@ -120,7 +99,9 @@ class MapContainer extends Component {
       let filteredListing = this.state.filteredListings.map(listing => (
         <li key={listing.id}>
           <Listing
-            listing={listing} />
+            listing={listing}
+            activeMarker={this.state.activeMarker}
+            google={this.props.google} />
         </li>
       ))
       return filteredListing;
@@ -128,24 +109,18 @@ class MapContainer extends Component {
       return this.props.markerInfo.map(listing => (
         <li key={listing.id}>
           <Listing
-            listing={listing} />
+            listing={listing}
+            activeMarker={this.state.activeMarker}
+            google={this.props.google} />
         </li>))
     }
   }
-
-  // componentDidUpdate() {
-  //   this.updateListing();
-  // }
 
   render() {
     const center = {
       lat: 32.322613,
       lng: -95.262592
     }
-
-    // TODO: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
-
-    // TODO: Clicking a marker displays unique information about a location somewhere on the page (modal, separate div, inside an infoWindow).
 
     return (
       // Displays Map and markers.
