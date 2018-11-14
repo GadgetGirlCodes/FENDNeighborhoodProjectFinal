@@ -22,6 +22,12 @@ class MapContainer extends Component {
     const { google } = mapProps;
     const infoWindow = new google.maps.InfoWindow();
 
+    // if there is an open infoWindow, and another is clicked, close the active marker and set activeMarker state to null
+    google.maps.event.addListener(infoWindow, 'closeclick', () => {
+      this.state.activeMarker.setAnimation(null);
+      this.setState({ activeMarker: null });
+    });
+
     // array to store all markers
     let markers = [];
 
@@ -48,22 +54,20 @@ class MapContainer extends Component {
           </div>`;
 
       marker.addListener('click', () => {
-        //if there is an active marker, remove animation and close open infoWindow
-        if (this.state.activeMarker !== null) {
-          //close any open infoWindow
-          infoWindow.close();
-          this.onInfoWindowClose(marker);
-          this.setState({ activeMarker: null });
-        } else {
-          //set the content for the new window
-          infoWindow.setContent(windowContent);
-          //show the new window based on the clicked marker
-          infoWindow.open(map, marker);
-          //set state to activeMarker
-          this.setState({ activeMarker: marker });
-          //set marker animation
-          marker.setAnimation(google.maps.Animation.BOUNCE);
-        }
+        // Use slice to create a temporary marker array that can be iterated over to stop the animation for the markers
+        let tempMarkers = this.state.markers.slice();
+          tempMarkers.forEach(mark => {
+            mark.setAnimation(null);
+        })
+
+        //set the content for the new window
+        infoWindow.setContent(windowContent);
+        //show the new window based on the clicked marker
+        infoWindow.open(map, marker);
+        //set state to activeMarker
+        this.setState({ activeMarker: marker });
+        //set marker animation
+        marker.setAnimation(google.maps.Animation.BOUNCE);
       });
 
       // store marker into array to push to set to state
@@ -75,15 +79,19 @@ class MapContainer extends Component {
   };
 
   // Toggle the animation for the marker that corresponds to each listing. https://reactjs.org/docs/handling-events.html
-  toggleListingMarker = (listing) => {
-    // if (this.state.activeMarker === null) {
-    //   return;
-    // } else {
-      let matchedMarker = this.state.markers.filter(marker => (marker.id === listing.id))
+  // https://codeburst.io/comparison-of-two-arrays-using-javascript-3251d03877fe
+  toggleListingMarker = () => {
+    if (this.state.activeMarker !== null) {
+      let matchedMarker =
+        this.state.markers.forEach(marker => this.state.markerInfo.forEach(listing => {
+          if (marker.key === listing.key) {
+            return marker;
+          }
+        }));
       this.setState({ activeMarker: matchedMarker })
       console.log('You clicked it!')
-    // }
-  }
+    }
+  };
 
   onInfoWindowClose = (marker) => {
     marker.setAnimation(null);
@@ -124,7 +132,7 @@ class MapContainer extends Component {
   displayListings = () => {
     if (this.state.filteredListings !== null) {
       let filteredListing = this.state.filteredListings.map(listing => (
-        <li key={listing.id}>
+        <li key={listing.key}>
           <Listing
             listing={listing}
             // activeMarker={this.state.activeMarker}
@@ -135,7 +143,7 @@ class MapContainer extends Component {
       return filteredListing;
     } else {
       return this.props.markerInfo.map(listing => (
-        <li key={listing.id}>
+        <li key={listing.key}>
           <Listing
             listing={listing}
             // activeMarker={this.state.activeMarker}
