@@ -15,7 +15,8 @@ class MapContainer extends Component {
 
   // DONE: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
 
-  // Create markers using the props given from google-maps-react via mapProps and map https://github.com/fullstackreact/google-maps-react
+  // Create markers using the props given from google-maps-react via 
+  // mapProps and map https://github.com/fullstackreact/google-maps-react
   createMarkers = (mapProps, map) => {
     // set google to mapProps from Map for marker creation
     const { google } = mapProps;
@@ -35,9 +36,11 @@ class MapContainer extends Component {
         animation: google.maps.Animation.DROP,
       });
 
-    // DONE: Clicking a marker displays unique information about a location somewhere on the page (modal, separate div, inside an infoWindow).
+      // DONE: Clicking a marker displays unique information about a location
+      // somewhere on the page (modal, separate div, inside an infoWindow).
 
-      // Content for each infoWindow. Reference found here https://developers.google.com/maps/documentation/javascript/infowindows
+      // Content for each infoWindow. Reference found here
+      // https://developers.google.com/maps/documentation/javascript/infowindows
       let windowContent =
         `<div className="infoWindow">
             <h3>${marker.name}</h3>
@@ -45,14 +48,21 @@ class MapContainer extends Component {
           </div>`;
 
       marker.addListener('click', () => {
-        //close any open infoWindow
-        infoWindow.close();
-        //set the content for the new window
-        infoWindow.setContent(windowContent);
-        //show the new window based on the clicked marker
-        infoWindow.open(map, marker);
-        //set state to activeMarker for use with Listing click event
-        this.setState({ activeMarker: marker })
+        //if there is an active marker, remove animation
+        if (this.state.activeMarker !== null) {
+          //close any open infoWindow
+          infoWindow.close(this.onInfoWindowClose(marker));
+          this.setState({ activeMarker: null })
+        } else {
+          //set the content for the new window
+          infoWindow.setContent(windowContent);
+          //show the new window based on the clicked marker
+          infoWindow.open(map, marker);
+          //set state to activeMarker
+          this.setState({ activeMarker: marker });
+          //set marker animation
+          marker.setAnimation(google.maps.Animation.BOUNCE);
+        }
       });
 
       // store marker into array to push to set to state
@@ -63,6 +73,10 @@ class MapContainer extends Component {
     this.setState({ markers: markers, filteredMarkers: markers });
   };
 
+  onInfoWindowClose = (marker) => {
+    marker.setAnimation(this.props.google.maps.Animation.NONE);
+  }
+
   // Updates filter input if there's a query, then updates listings and markers
   updateQuery = (query) => {
     this.setState({ query: query })
@@ -72,26 +86,27 @@ class MapContainer extends Component {
   // Set filteredListings state if query input.
   updateListing = (query, map) => {
     if (query) {
-      // check listing with query. Used toLowerCase to prevent any hangups with case-sensitivity
+      // check listing with query, set state to show only filtered listings.
+      // Used toLowerCase to prevent any hangups with case-sensitivity
       let filteredListings = this.props.markerInfo.filter(listing => (listing.name.toLowerCase().includes(query.toLowerCase())));
       this.setState({ filteredListings: filteredListings });
       this.state.filteredMarkers.forEach((listing) => {
-        // check markers with query
+        // check markers with query, if no match, then hide markers
         if (!listing.name.toLowerCase().includes(query.toLowerCase())) {
           return listing.setVisible(false);
         }
       })
     } else {
-      //clear filtered listings
-      this.setState({ filteredListings: null});
+      //clear filtered listings from state, show all listings and markers
+      this.setState({ filteredListings: null });
       this.setVisibleOnAll();
     }
   };
 
   //Set all markers to visible
-setVisibleOnAll = () => {
-  this.state.filteredMarkers.forEach((marker) => marker.setVisible(true))
-};
+  setVisibleOnAll = () => {
+    this.state.filteredMarkers.forEach((marker) => marker.setVisible(true))
+  };
 
   // Map over filteredListings and display filtered listings. If null, display all listings
   displayListings = () => {
@@ -116,10 +131,15 @@ setVisibleOnAll = () => {
     }
   }
 
+  // listingClickEvent = (listing) => {
+  //   const listingMarker = this.state.
+
+  // }
+
   render() {
     const center = {
-      lat: 32.322613,
-      lng: -95.262592
+      lat: 32.314747,
+      lng: -95.249265
     }
 
     return (
@@ -150,14 +170,6 @@ setVisibleOnAll = () => {
             </ul>
           </section>
         </Drawer>
-        {/* <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showInfo}
-          onClose={this.onInfoClose}>
-          <div>
-            <h1>Somethingsomethingsomething</h1>
-          </div>
-        </InfoWindow> */}
       </Map>
     )
   }
