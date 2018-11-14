@@ -48,11 +48,12 @@ class MapContainer extends Component {
           </div>`;
 
       marker.addListener('click', () => {
-        //if there is an active marker, remove animation
+        //if there is an active marker, remove animation and close open infoWindow
         if (this.state.activeMarker !== null) {
           //close any open infoWindow
-          infoWindow.close(this.onInfoWindowClose(marker));
-          this.setState({ activeMarker: null })
+          infoWindow.close();
+          this.onInfoWindowClose(marker);
+          this.setState({ activeMarker: null });
         } else {
           //set the content for the new window
           infoWindow.setContent(windowContent);
@@ -73,8 +74,19 @@ class MapContainer extends Component {
     this.setState({ markers: markers, filteredMarkers: markers });
   };
 
+  // Toggle the animation for the marker that corresponds to each listing. https://reactjs.org/docs/handling-events.html
+  toggleListingMarker = (listing) => {
+    // if (this.state.activeMarker === null) {
+    //   return;
+    // } else {
+      let matchedMarker = this.state.markers.filter(marker => (marker.id === listing.id))
+      this.setState({ activeMarker: matchedMarker })
+      console.log('You clicked it!')
+    // }
+  }
+
   onInfoWindowClose = (marker) => {
-    marker.setAnimation(this.props.google.maps.Animation.NONE);
+    marker.setAnimation(null);
   }
 
   // Updates filter input if there's a query, then updates listings and markers
@@ -115,7 +127,8 @@ class MapContainer extends Component {
         <li key={listing.id}>
           <Listing
             listing={listing}
-            activeMarker={this.state.activeMarker}
+            // activeMarker={this.state.activeMarker}
+            // onClick={this.state.activeMarker.setAnimation(this.props.google.maps.Animation.BOUNCE)}
             google={this.props.google} />
         </li>
       ))
@@ -125,7 +138,8 @@ class MapContainer extends Component {
         <li key={listing.id}>
           <Listing
             listing={listing}
-            activeMarker={this.state.activeMarker}
+            // activeMarker={this.state.activeMarker}
+            toggleListingMarker={this.toggleListingMarker}
             google={this.props.google} />
         </li>))
     }
@@ -148,7 +162,7 @@ class MapContainer extends Component {
         aria-label="map"
         role="application"
         google={this.props.google}
-        zoom={15}
+        zoom={14}
         initialCenter={center}
         onClick={this.props.toggleMenu}
         onReady={this.createMarkers} >
