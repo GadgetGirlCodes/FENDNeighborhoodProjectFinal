@@ -21,7 +21,7 @@ class App extends Component {
 
   // Get and store location information from YelpAPI
   getYelpInfo = () => {
-    let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=2000&latitude=32.322613&longitude=-95.262592&sort_by=distance"
+    let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=5000&latitude=32.322613&longitude=-95.262592&sort_by=distance&limit=50"
     let headers = new Headers({
       Authorization: `Bearer ${YELP_KEY}`
     });
@@ -63,12 +63,12 @@ class App extends Component {
     this.setState({ markerInfo: markerInfo })
   };
 
-    // Toggle ListMenu
-    toggleMenu = () => {
-      this.setState({ menuOpen: !this.state.menuOpen });
-    }
+  // Toggle ListMenu
+  toggleMenu = () => {
+    this.setState({ menuOpen: !this.state.menuOpen });
+  }
 
-  // Fetch yelp info
+  // Fetch yelp info when component is mounted
   componentDidMount() {
     this.getYelpInfo();
   };
