@@ -19,6 +19,7 @@ class MapContainer extends Component {
   createMarkers = (mapProps, map) => {
     // set google to mapProps from Map for marker creation
     const { google } = mapProps;
+    const infoWindow = new google.maps.InfoWindow();
 
     // array to store all markers
     let markers = [];
@@ -30,34 +31,28 @@ class MapContainer extends Component {
         key: item.key,
         name: item.name,
         map: map,
+        phone: item.phone,
         animation: google.maps.Animation.Drop,
       });
-      
-      // infoWindow for markers
+
+      // Content for each infoWindow
       let windowContent =
         `<div className="infoWindow">
             <h3>${marker.name}</h3>
             <p>Phone: ${marker.phone}</p>
-          </div>`
-      let infoWindow = new google.maps.InfoWindow({
-        content: windowContent
-      });
+          </div>`;
 
       marker.addListener('click', () => {
+        infoWindow.close();
+        infoWindow.setContent(windowContent);
         infoWindow.open(map, marker);
-        // if (this.state.activeMarker !== null) {
-        //   this.setState({ activeMarker: null, showInfo: false })
-        // } else {
-        //   this.setState({ activeMarker: clickedMarker, showInfo: true })
-        // }
       });
-
 
       // store marker into array to push to set to state
       markers.push(marker);
     });
-    console.log(markers);
-    // set state my markers
+
+    // set state for markers
     this.setState({ markers: markers, filteredMarkers: markers });
   };
 
