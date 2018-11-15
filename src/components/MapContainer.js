@@ -46,7 +46,7 @@ class MapContainer extends Component {
         zoom={14}
         initialCenter={center}
         onClick={this.props.toggleMenu}
-        onReady={this.createMarkers} >
+        onReady={this.props.createMarkers && this.props.createListings} >
         <Drawer
           open={this.props.menuOpen}
           onClose={this.props.toggleMenu} >
@@ -61,7 +61,7 @@ class MapContainer extends Component {
               onChange={e => this.updateQuery(e.target.value)}
               value={this.state.query} />
             <ul className='list'>
-              {this.displayListings()}
+
             </ul>
           </section>
         </Drawer>

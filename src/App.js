@@ -230,6 +230,7 @@ class App extends Component {
           updateListing={this.updateListing}
           handleListingClick={this.handleListingClick}
           toggleMenu={this.toggleMenu}
+          createListings={this.createListings}
         />
       </div>
     );
