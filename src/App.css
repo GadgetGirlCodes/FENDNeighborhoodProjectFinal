@@ -90,3 +90,8 @@ button {
 .errorMessage {
   text-align: center
 }
+
+/* Loading Message */
+.loadingYelp {
+  text-align: center;
+}
