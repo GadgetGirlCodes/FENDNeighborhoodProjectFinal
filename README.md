@@ -22,11 +22,13 @@ To access this web app:
 
 ## Attribution
 
+This project wouldn't have been possible without the fantastic help of Doug Brown. His [walkthrough](https://www.youtube.com/watch?v=NVAVLCJwAAo&feature=youtu.be) as well as his guidance in Slack forum was priceless. Thank you so much!
+
+I would also like to thank Robert L for helping me to understand how to create my markers. Even though I wasn't able to use the google-maps-react Marker component, he helped me understand how to use the GoogleAPI function to create my markers, and how to connect them to the google-maps-react wrapper.
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Emulated backend server was provided by [cors-anywhere](https://github.com/Rob--W/cors-anywhere/). The use of this is solely for the testing and review of this project. It is not intended for public use.
-
-This project wouldn't have been possible without the fantastic help of Doug Brown. His [walkthrough](https://www.youtube.com/watch?v=NVAVLCJwAAo&feature=youtu.be) as well as his guidance in our Slack forum was priceless. Thank you so much!
 
 Photos are provided via the [YelpFusion API](https://www.yelp.com/developers/documentation/v3).
 Map is provided via the [Google Maps API](http://maps.google.com).
@@ -37,6 +39,8 @@ The following libraries were also used in development:
 	* [Material-UI](https://material-ui.com/)
 	* [Google-maps-react](https://github.com/fullstackreact/google-maps-react)
 	* [React-fontawesome](https://www.npmjs.com/package/@fortawesome/react-fontawesome)
+
+Other references to code help are listed in the comments of the corresponding code.
 
 ## Contributing
 

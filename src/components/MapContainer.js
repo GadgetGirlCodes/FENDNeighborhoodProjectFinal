@@ -13,12 +13,10 @@ class MapContainer extends Component {
     query: ""
   }
 
-  // DONE: Map displays all location markers by default, and displays the filtered subset of location markers when a filter is applied.
-
-  // Create markers using the props given from google-maps-react via 
-  // mapProps and map https://github.com/fullstackreact/google-maps-react
+  // Create markers using the props passed from the Google map via google-maps-react
+  // https://github.com/fullstackreact/google-maps-react
   createMarkers = (mapProps, map) => {
-    // set google to mapProps from Map for marker creation
+    // set google to mapProps from Map to allow for marker and info window creation
     const { google } = mapProps;
     const infoWindow = new google.maps.InfoWindow();
 
@@ -31,7 +29,7 @@ class MapContainer extends Component {
     // array to store all markers
     let markers = [];
 
-    // For each markerInfo object, generate a Marker
+    // For each markerInfo object, generate a GoogleMaps Marker object
     this.props.markerInfo.forEach(item => {
       const marker = new google.maps.Marker({
         position: { lat: item.position.lat, lng: item.position.lng },
@@ -41,9 +39,6 @@ class MapContainer extends Component {
         phone: item.phone,
         animation: google.maps.Animation.DROP
       });
-
-      // DONE: Clicking a marker displays unique information about a location
-      // somewhere on the page (modal, separate div, inside an infoWindow).
 
       // Content for each infoWindow. Reference found here
       // https://developers.google.com/maps/documentation/javascript/infowindows
@@ -141,6 +136,7 @@ class MapContainer extends Component {
       ));
       return filteredListing;
     } else {
+      //if no filtered listings, display all listings
       return this.props.markerInfo.map((listing, index) => (
         <li key={listing.key}>
           <Listing

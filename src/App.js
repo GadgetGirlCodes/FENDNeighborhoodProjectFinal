@@ -17,10 +17,9 @@ class App extends Component {
     error: false
   }
 
-  // DONE: Application utilizes the Google Maps API or another mapping system and at least one non-Google third-party API.
-  // DONE: All data requests are retrieved in an asynchronous manner using either the Fetch API.
-
-  // Get and store location information from YelpAPI
+  // Use FetchAPI to retrieve and store location information from YelpAPI
+  // Fix for adding headers found here: https://stackoverflow.com/questions/44444777/calling-yelp-api-from-frontend-javascript-code-running-in-a-browser
+  // Access to emulated backend found here: https://github.com/Rob--W/cors-anywhere
   getYelpInfo = () => {
     let url = "https://cors-anywhere.herokuapp.com/https://api.yelp.com/v3/businesses/search?radius=5000&latitude=32.322613&longitude=-95.262592&sort_by=distance&limit=50"
     let headers = new Headers({
@@ -54,8 +53,6 @@ class App extends Component {
       };
       return markerInfo.push(info);
     })
-    // Console log to test
-    console.log(markerInfo);
     this.setState({ markerInfo: markerInfo })
   };
 
