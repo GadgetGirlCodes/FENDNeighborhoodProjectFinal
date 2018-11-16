@@ -13,7 +13,8 @@ class App extends Component {
   state = {
     yelpData: [],
     markerInfo: null,
-    menuOpen: false
+    menuOpen: false,
+    error: false
   }
 
   // DONE: Application utilizes the Google Maps API or another mapping system and at least one non-Google third-party API.
@@ -30,16 +31,11 @@ class App extends Component {
       headers
     })
     fetch(request)
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Something went wrong...');
-        }
-      })
+      .then(response => {return response.json();})
       .then(data => this.setState({ yelpData: data.businesses }))
-      .then(markerData => this.getMarkerInfo(this.state.yelpData))
-      .catch(error => this.setState({ error }));
+      .then(() => this.getMarkerInfo(this.state.yelpData))
+      // set error state to true to display Error Message
+      .catch(() => this.setState({ error: true }));
   };
 
   // Create an array to hold specific information from the YelpAPI to use for markers and listings.
@@ -74,23 +70,28 @@ class App extends Component {
   };
 
   render() {
-    // Wait for Yelp Data to populate. https://stackoverflow.com/questions/42132290/wait-for-react-promise-to-resolve-before-render
-    if (this.state.markerInfo === null) return 'Please wait. Loading data from Yelp!';
-
-    return (
-      <div className="App">
-        <nav className="mainHeader">
-          <h2>Nom-Nom Finder</h2>
-          <button aria-label="Listing Menu" onClick={this.toggleMenu}><FontAwesomeIcon icon="bars" /></button>
-        </nav>
-        <MapContainer
-          markerInfo={this.state.markerInfo}
-          menuOpen={this.state.menuOpen}
-          toggleMenu={this.toggleMenu}
-          filteredListings={this.state.filteredListings}
-          filteredMarkers={this.state.filteredMarkers} />
-      </div>
-    );
+    if (this.state.error === true) {
+      // Display Error Message
+      return <div className='errorMessage'>Oh No! It looks like there was an error! Please try again later.</div>
+    } else if (this.state.markerInfo === null) {
+      // Wait for Yelp Data to populate. https://stackoverflow.com/questions/42132290/wait-for-react-promise-to-resolve-before-render
+      return <div className='loadingYelp'>Please wait. Loading data from Yelp!</div>;
+    } else {
+      return (
+        <div className="App">
+          <nav className="mainHeader">
+            <h2>Nom-Nom Finder</h2>
+            <button aria-label="Listing Menu" onClick={this.toggleMenu}><FontAwesomeIcon icon="bars" /></button>
+          </nav>
+          <MapContainer
+            markerInfo={this.state.markerInfo}
+            menuOpen={this.state.menuOpen}
+            toggleMenu={this.toggleMenu}
+            filteredListings={this.state.filteredListings}
+            filteredMarkers={this.state.filteredMarkers} />
+        </div>
+      );
+    }
   }
 }
 
