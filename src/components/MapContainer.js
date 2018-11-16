@@ -6,7 +6,7 @@ import Listing from './Listing';
 
 class MapContainer extends Component {
   state = {
-    markers: [],
+    allMarkers: [],
     filteredMarkers: null,
     filteredListings: null,
     activeMarker: null,
@@ -39,7 +39,7 @@ class MapContainer extends Component {
         name: item.name,
         map: map,
         phone: item.phone,
-        animation: google.maps.Animation.DROP,
+        animation: google.maps.Animation.DROP
       });
 
       // DONE: Clicking a marker displays unique information about a location
@@ -55,7 +55,7 @@ class MapContainer extends Component {
 
       marker.addListener('click', () => {
         // Use slice to create a temporary marker array that can be iterated over to stop the animation for the markers
-        let tempMarkers = this.state.markers.slice();
+        let tempMarkers = this.state.allMarkers.slice();
           tempMarkers.forEach(mark => {
             mark.setAnimation(null);
         })
@@ -67,7 +67,7 @@ class MapContainer extends Component {
         //set state to activeMarker
         this.setState({ activeMarker: marker });
         //set marker animation
-        marker.setAnimation(google.maps.Animation.BOUNCE);
+        this.state.activeMarker.setAnimation(google.maps.Animation.BOUNCE);
       });
 
       // store marker into array to push to set to state
@@ -75,21 +75,19 @@ class MapContainer extends Component {
     });
 
     // set state for markers
-    this.setState({ markers: markers, filteredMarkers: markers });
+    this.setState({ allMarkers: markers, filteredMarkers: markers });
   };
 
-  // Toggle the animation for the marker that corresponds to each listing. https://reactjs.org/docs/handling-events.html
-  // https://codeburst.io/comparison-of-two-arrays-using-javascript-3251d03877fe
-  toggleListingMarker = () => {
-    if (this.state.activeMarker !== null) {
-      let matchedMarker =
-        this.state.markers.forEach(marker => this.state.markerInfo.forEach(listing => {
-          if (marker.key === listing.key) {
-            return marker;
-          }
-        }));
-      this.setState({ activeMarker: matchedMarker })
-      console.log('You clicked it!')
+  // Set the animation for the marker that corresponds to each listing. 
+  toggleListingMarker = (index) => {
+    if (this.state.filteredListings !== null) {
+      let filteredMarker = this.state.filteredMarkers[index];
+      this.setState({ activeMarker: filteredMarker })
+      filteredMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
+    } else {
+      let clickedMarker = this.state.allMarkers[index];
+      this.setState({ activeMarker: clickedMarker })
+      clickedMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
     }
   };
 
@@ -119,44 +117,41 @@ class MapContainer extends Component {
     } else {
       //clear filtered listings from state, show all listings and markers
       this.setState({ filteredListings: null });
-      this.setVisibleOnAll();
+      this.toggleVisibleOnAll();
     }
   };
 
   //Set all markers to visible
-  setVisibleOnAll = () => {
-    this.state.filteredMarkers.forEach((marker) => marker.setVisible(true))
+  toggleVisibleOnAll = () => {
+    this.state.allMarkers.forEach((marker) => marker.setVisible(true))
   };
 
   // Map over filteredListings and display filtered listings. If null, display all listings
   displayListings = () => {
     if (this.state.filteredListings !== null) {
-      let filteredListing = this.state.filteredListings.map(listing => (
+      let filteredListing = this.state.filteredListings.map((listing, index) => (
         <li key={listing.key}>
           <Listing
+            index={index}
             listing={listing}
-            // activeMarker={this.state.activeMarker}
-            // onClick={this.state.activeMarker.setAnimation(this.props.google.maps.Animation.BOUNCE)}
-            google={this.props.google} />
-        </li>
-      ))
-      return filteredListing;
-    } else {
-      return this.props.markerInfo.map(listing => (
-        <li key={listing.key}>
-          <Listing
-            listing={listing}
-            // activeMarker={this.state.activeMarker}
+            allMarkers={this.state.allMarkers}
             toggleListingMarker={this.toggleListingMarker}
             google={this.props.google} />
-        </li>))
+        </li>
+      ));
+      return filteredListing;
+    } else {
+      return this.props.markerInfo.map((listing, index) => (
+        <li key={listing.key}>
+          <Listing
+            index={index}
+            listing={listing}
+            allMarkers={this.state.allMarkers}
+            toggleListingMarker={this.toggleListingMarker}
+            google={this.props.google} />
+        </li>));
     }
   }
-
-  // listingClickEvent = (listing) => {
-  //   const listingMarker = this.state.
-
-  // }
 
   render() {
     const center = {
