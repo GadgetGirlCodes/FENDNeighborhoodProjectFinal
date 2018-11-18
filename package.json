@@ -2,7 +2,7 @@
   "name": "final-project",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://gadgetgirlcodes.github.io/FENDNeighborhoodProjectFinal/",
+  "homepage": "https://gadgetgirlcodes.github.io/FENDNeighborhoodProjectFinal/index.html",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.8",
     "@fortawesome/free-solid-svg-icons": "^5.5.0",
