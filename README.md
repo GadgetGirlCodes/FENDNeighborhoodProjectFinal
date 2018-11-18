@@ -20,6 +20,13 @@ To access this web app:
 	3. If the browser does not automatically open the app, then with your server running,
 	 navigate to `http://localhost:3000`
 
+**Note about the service worker:** This project uses create-react-app's built in service worker function. Because of this, it will only work in production mode. To access production mode, please follow these steps:
+
+	1. Clone/Download the repository to your local drive.
+	2. From the command line at project root, run `npm run build`
+	3. To set up a static server, run `serve -s`
+	4. Navigate to http://localhost:5000/
+
 ## Attribution
 
 This project wouldn't have been possible without the fantastic help of Doug Brown. His [walkthrough](https://www.youtube.com/watch?v=NVAVLCJwAAo&feature=youtu.be) as well as his guidance in Slack forum was priceless. Thank you so much!
