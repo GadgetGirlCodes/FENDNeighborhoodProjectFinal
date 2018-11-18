@@ -6,6 +6,15 @@
                 #d6d3f0	(214,211,240) */
 
 /* Main Page */
+.App {
+  width: 100vw;
+  height: calc(100vh - 25px);
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
 .mainHeader {
   background-color: #0b3142;
   padding: 10px;
@@ -31,7 +40,6 @@ button {
 .mapContainer {
   width: 100vw;
   height: calc(100vh - 25px);
-  display: flex;
 }
 
 /* List Style */
@@ -54,23 +62,33 @@ button {
 }
 
 /* Listing */
-.listing {
+.list li {
+  width: 100%;
+}
+.listingContainer {
   display: flex;
   flex-flow: column wrap;
   justify-content: center;
   align-items: center;
-  width: calc(325px - 20px);
-  min-height: 325px;
-  text-align: center;
-  border: #0b3142 2px solid;
-  margin: auto;
-  padding: auto;
-  align-self: flex-start;
+  width: 100%;
 }
 
 .listingName {
-  width: 100%;
+  width: 75%;
+  border: #0b3142 2px solid;
+  text-align: center;
   font-size: larger;
+  margin: 10px;
+}
+
+.listingDetails {
+  /* display: flex; */
+  width: calc(325px - 20px);
+  min-height: 325px;
+  text-align: center;
+  margin: auto;
+  padding: auto;
+  align-self: flex-start;
 }
 
 .listingPhoto img {

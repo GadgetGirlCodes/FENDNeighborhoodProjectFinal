@@ -10,6 +10,7 @@ class MapContainer extends Component {
     filteredMarkers: null,
     filteredListings: null,
     activeMarker: null,
+    hidden: true,
     query: ""
   }
 
@@ -77,11 +78,11 @@ class MapContainer extends Component {
   toggleListingMarker = (index) => {
     if (this.state.filteredListings !== null) {
       let filteredMarker = this.state.filteredMarkers[index];
-      this.setState({ activeMarker: filteredMarker })
+      this.setState({ activeMarker: filteredMarker, hidden: !this.state.hidden })
       filteredMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
     } else {
       let clickedMarker = this.state.allMarkers[index];
-      this.setState({ activeMarker: clickedMarker })
+      this.setState({ activeMarker: clickedMarker , hidden: !this.state.hidden })
       clickedMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
     }
   };
@@ -127,6 +128,7 @@ class MapContainer extends Component {
       let filteredListing = this.state.filteredListings.map((listing, index) => (
         <li key={listing.key}>
           <Listing
+            hidden={this.state.hidden}
             index={index}
             listing={listing}
             allMarkers={this.state.allMarkers}
@@ -140,6 +142,7 @@ class MapContainer extends Component {
       return this.props.markerInfo.map((listing, index) => (
         <li key={listing.key}>
           <Listing
+            hidden={this.state.hidden}
             index={index}
             listing={listing}
             allMarkers={this.state.allMarkers}
