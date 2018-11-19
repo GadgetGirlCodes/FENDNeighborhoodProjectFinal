@@ -104,12 +104,11 @@ button {
   margin: 10px 7px;
 }
 
-/* Error Messages */
-.errorMessage {
-  text-align: center
-}
-
-/* Loading Message */
-.loadingYelp {
+/* Loading/Error Message */
+.message {
   text-align: center;
+  margin: auto;
+  margin-top: 50%;
+  width: 200px;
+  height: 50px;
 }

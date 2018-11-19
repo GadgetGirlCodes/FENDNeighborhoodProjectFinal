@@ -69,10 +69,10 @@ class App extends Component {
   render() {
     if (this.state.error === true) {
       // Display Error Message
-      return <div className='errorMessage'>Oh No! It looks like there was an error! Please try again later.</div>
+      return <div className='message'>Oh No! It looks like there was an error! Please try again later.</div>
     } else if (this.state.markerInfo === null) {
       // Wait for Yelp Data to populate. https://stackoverflow.com/questions/42132290/wait-for-react-promise-to-resolve-before-render
-      return <div className='loadingYelp'>Please wait. Loading data from Yelp!</div>;
+      return <div className='message'>Please wait. Loading data from Yelp!</div>;
     } else {
       return (
         <div className="App">
