@@ -52,8 +52,8 @@ class MapContainer extends Component {
       marker.addListener('click', () => {
         // Use slice to create a temporary marker array that can be iterated over to stop the animation for the markers
         let tempMarkers = this.state.allMarkers.slice();
-          tempMarkers.forEach(mark => {
-            mark.setAnimation(null);
+        tempMarkers.forEach(mark => {
+          mark.setAnimation(null);
         })
 
         //set the content for the new window
@@ -82,7 +82,7 @@ class MapContainer extends Component {
       filteredMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
     } else {
       let clickedMarker = this.state.allMarkers[index];
-      this.setState({ activeMarker: clickedMarker , hidden: !this.state.hidden })
+      this.setState({ activeMarker: clickedMarker, hidden: !this.state.hidden })
       clickedMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
     }
   };
@@ -160,14 +160,15 @@ class MapContainer extends Component {
 
     return (
       // Displays Map and markers.
-      <Map
-        aria-label="map"
-        role="application"
-        google={this.props.google}
-        zoom={14}
-        initialCenter={center}
-        onClick={this.props.toggleMenu}
-        onReady={this.createMarkers} >
+      <section>
+        <Map
+          aria-label="map"
+          role="application"
+          google={this.props.google}
+          zoom={14}
+          initialCenter={center}
+          onClick={this.props.toggleMenu}
+          onReady={this.createMarkers} />
         <Drawer
           open={this.props.menuOpen}
           onClose={this.props.toggleMenu} >
@@ -186,7 +187,7 @@ class MapContainer extends Component {
             </ul>
           </section>
         </Drawer>
-      </Map>
+      </section>
     )
   }
 }
