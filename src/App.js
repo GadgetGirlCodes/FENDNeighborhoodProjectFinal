@@ -14,7 +14,7 @@ class App extends Component {
     yelpData: [],
     markerInfo: null,
     menuOpen: false,
-    error: false
+    error: null
   }
 
   // Use FetchAPI to retrieve and store location information from YelpAPI
@@ -66,13 +66,21 @@ class App extends Component {
     this.getYelpInfo();
   };
 
+
+  // When an error is thrown, set state to show error message.
+  // https://medium.com/@baphemot/understanding-reactjs-component-life-cycle-823a640b3e8d
+  componentDidCatch(errorString, errorInfo) {
+    this.setState({ error: errorString });
+    console.log(errorString, errorInfo)
+  }
+
   render() {
-    if (this.state.error === true) {
-      // Display Error Message
-      return <div className='message'>Oh No! It looks like there was an error! Please try again later.</div>
-    } else if (this.state.markerInfo === null) {
+    if (this.state.markerInfo === null) {
       // Wait for Yelp Data to populate. https://stackoverflow.com/questions/42132290/wait-for-react-promise-to-resolve-before-render
       return <div className='message'>Please wait. Loading data from Yelp!</div>;
+    } else if (this.state.error) {
+      // Display Error Message
+      return <div className='message'>Oh No! It looks like there was an error loading the map! Please try again later.</div>
     } else {
       return (
         <div className="App">
