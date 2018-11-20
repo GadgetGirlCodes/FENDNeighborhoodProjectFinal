@@ -170,8 +170,8 @@ class MapContainer extends Component {
 
   render() {
     const center = {
-      lat: 32.314747,
-      lng: -95.249265
+      lat: 32.322631,
+      lng: -95.265738
     }
 
     return (
