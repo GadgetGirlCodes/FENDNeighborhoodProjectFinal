@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import MapContainer from './components/MapContainer';
+import YelpLogo from './img/Yelp_trademark_RGB_outline.png'
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars } from '@fortawesome/free-solid-svg-icons';
@@ -30,7 +31,7 @@ class App extends Component {
       headers
     })
     fetch(request)
-      .then(response => {return response.json();})
+      .then(response => { return response.json(); })
       .then(data => this.setState({ yelpData: data.businesses }))
       .then(() => this.getMarkerInfo(this.state.yelpData))
       // set error state to true to display Error Message
@@ -85,8 +86,9 @@ class App extends Component {
       return (
         <div className="App">
           <nav className="mainHeader">
-            <h2>Nom-Nom Finder</h2>
             <button aria-label="Listing Menu" onClick={this.toggleMenu}><FontAwesomeIcon icon="bars" /></button>
+            <h2>Nom-Nom Finder</h2>
+            <a href="https://www.yelp.com/"><img src={YelpLogo} width="64px" height="45px" alt="Visit Yelp" /></a>
           </nav>
           <MapContainer
             markerInfo={this.state.markerInfo}
