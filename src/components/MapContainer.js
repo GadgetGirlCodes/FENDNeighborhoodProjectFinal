@@ -9,8 +9,6 @@ class MapContainer extends Component {
     allMarkers: [],
     filteredMarkers: null,
     filteredListings: null,
-    activeMarker: null,
-    hidden: true,
     query: ""
   }
 
@@ -78,12 +76,32 @@ class MapContainer extends Component {
   toggleListingMarker = (index) => {
     if (this.state.filteredListings !== null) {
       let filteredMarker = this.state.filteredMarkers[index];
-      this.setState({ activeMarker: filteredMarker, hidden: !this.state.hidden })
-      filteredMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
+      let thisListing = document.getElementById(index);
+      this.toggleListingVisible(thisListing);
+      this.toggleMarkerAnimation(filteredMarker);
     } else {
       let clickedMarker = this.state.allMarkers[index];
-      this.setState({ activeMarker: clickedMarker, hidden: !this.state.hidden })
-      clickedMarker.setAnimation(this.props.google.maps.Animation.BOUNCE);
+      let thisListing = document.getElementById(index);
+      this.toggleListingVisible(thisListing);
+      this.toggleMarkerAnimation(clickedMarker);
+    }
+  };
+
+  // Activates animation for a marker based on it's current animation. Used for toggleListingMarker to toggle marker animation.
+  toggleMarkerAnimation = (animatedMarker) => {
+    if (animatedMarker.animating === false) {
+      animatedMarker.setAnimation(this.props.google.maps.Animation.BOUNCE)
+    } else {
+      animatedMarker.setAnimation(this.props.google.maps.Animation.NONE)
+    }
+  }
+
+  // Shows or hides the details of a listing based on the current attribute. Used for toggleListingMarker 
+  toggleListingVisible = (clickedListing) => {
+    if (clickedListing.hasAttribute('hidden')) {
+      clickedListing.removeAttribute('hidden');
+    } else {
+      clickedListing.setAttribute('hidden', true);
     }
   };
 
@@ -128,7 +146,6 @@ class MapContainer extends Component {
       let filteredListing = this.state.filteredListings.map((listing, index) => (
         <li key={listing.key}>
           <Listing
-            hidden={this.state.hidden}
             index={index}
             listing={listing}
             allMarkers={this.state.allMarkers}
@@ -142,7 +159,6 @@ class MapContainer extends Component {
       return this.props.markerInfo.map((listing, index) => (
         <li key={listing.key}>
           <Listing
-            hidden={this.state.hidden}
             index={index}
             listing={listing}
             allMarkers={this.state.allMarkers}

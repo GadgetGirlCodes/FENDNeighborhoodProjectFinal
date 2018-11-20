@@ -65,6 +65,7 @@ button {
 .list li {
   width: 100%;
 }
+
 .listingContainer {
   display: flex;
   flex-flow: column wrap;
