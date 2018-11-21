@@ -4,6 +4,15 @@ import Drawer from '@material-ui/core/Drawer';
 import { DebounceInput } from 'react-debounce-input';
 import Listing from './Listing';
 
+
+// Sets an alert window if there is an authentication error with the Google Maps API.
+// Help was provided by an Udacity reviewer and the following sites:
+// https://developers.google.com/maps/documentation/javascript/events
+// https://stackoverflow.com/questions/45633672/detect-query-limit-message-on-map-load-with-google-maps-javascript-api
+window.gm_authFailure = function gm_authFailure(){
+  window.alert("Oh No! It looks like there was an error loading the map! Please try again later.")
+}
+
 class MapContainer extends Component {
   state = {
     allMarkers: [],
@@ -12,6 +21,8 @@ class MapContainer extends Component {
     query: ""
   }
 
+   
+ 
   // Create markers using the props passed from the Google map via google-maps-react
   // https://github.com/fullstackreact/google-maps-react
   createMarkers = (mapProps, map) => {
