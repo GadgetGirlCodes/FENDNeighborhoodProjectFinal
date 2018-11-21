@@ -111,8 +111,10 @@ class MapContainer extends Component {
   toggleListingVisible = (clickedListing) => {
     if (clickedListing.hasAttribute('hidden')) {
       clickedListing.removeAttribute('hidden');
+      clickedListing.setAttribute('aria-expanded', true);
     } else {
       clickedListing.setAttribute('hidden', true);
+      clickedListing.setAttribute('aria-expanded', false);
     }
   };
 
@@ -155,7 +157,7 @@ class MapContainer extends Component {
   displayListings = () => {
     if (this.state.filteredListings !== null) {
       let filteredListing = this.state.filteredListings.map((listing, index) => (
-        <li key={listing.key}>
+        <li aria-label="Restaurant Information" role="link" key={listing.key}>
           <Listing
             index={index}
             listing={listing}
@@ -168,7 +170,7 @@ class MapContainer extends Component {
     } else {
       //if no filtered listings, display all listings
       return this.props.markerInfo.map((listing, index) => (
-        <li key={listing.key}>
+        <li aria-label="Restaurant Information" role="link" key={listing.key}>
           <Listing
             index={index}
             listing={listing}
@@ -199,7 +201,7 @@ class MapContainer extends Component {
         <Drawer
           open={this.props.menuOpen}
           onClose={this.props.toggleMenu} >
-          <section className="listMenu">
+          <section aria-label="Restaurant List and Filter" className="listMenu">
             <DebounceInput
               minLength={1}
               debounceTimeout={500}
@@ -209,7 +211,7 @@ class MapContainer extends Component {
               placeholder='Filter Listings by Name'
               onChange={e => this.updateQuery(e.target.value)}
               value={this.state.query} />
-            <ul className='list'>
+            <ul aria-label="Restaurant Listings" role="directory" className='list'>
               {this.displayListings()}
             </ul>
           </section>

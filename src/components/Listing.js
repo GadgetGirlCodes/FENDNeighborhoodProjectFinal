@@ -15,7 +15,7 @@ class Listing extends Component {
          className="listingName">
          {this.props.listing.name}
          </div>
-        <section hidden className="listingDetails" id={this.props.index} >
+        <section hidden aria-expanded="false" className="listingDetails" id={this.props.index} >
           <div className="listingPhoto">
             <img alt={this.props.listing.name + " photo"} src={displayedImage} />
           </div>
